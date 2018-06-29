@@ -1,9 +1,7 @@
 class FileReceivedNotificationJob < ApplicationJob
   queue_as :default
-  SUBSCRIBERS = [NotificationService]
-  def perform(attachment)
-    SUBSCRIBERS.each do |subscriber|
-      subscriber.new(attachment.time_slots_url).call
-    end
+
+  def perform(time_slots_url, fields_url)
+    NotificationService.new(time_slots_url, fields_url).call
   end
 end
